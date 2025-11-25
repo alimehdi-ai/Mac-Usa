@@ -38,7 +38,7 @@ const Navbar = () => {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href="/get-quote"
               className="bg-primary-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-200"
             >
               Get Quote
@@ -91,7 +91,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <Link
-                href="/contact"
+                href="/get-quote"
                 className="bg-primary-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-200 text-center mx-4"
                 onClick={() => setIsOpen(false)}
               >
