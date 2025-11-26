@@ -2,179 +2,90 @@
 
 import { useState } from 'react'
 
-// Product categories with all items
-const productCategories = [
-  {
-    category: 'Children\'s Clothing',
-    products: [
-      'CHILDREN JACKETS (SPRING, SUMMER)',
-      'CHILDREN JACKETS (WINTER)',
-      'CHILDREN JACKETS (WINTER II)',
-      'CHILDREN PANTS (JEANS)',
-      'CHILDREN POLYESTER MIX',
-      'CHILDREN RUMMAGE 0–3',
-      'CHILDREN RUMMAGE 4–14 (L/S)',
-      'CHILDREN RUMMAGE 4–14 (SPRING, SUMMER)',
-      'CHILDREN SKI SUITS',
-      'CHILDREN SWEATSHIRTS/SWEATPANTS MIX',
-      'CHILDREN WINTER MIX 4–14',
-    ]
-  },
-  {
-    category: 'Ladies\' Clothing',
-    products: [
-      'LADIES BLAZERS – JACKETS',
-      'LADIES BLOUSES (SIZE PLUS)',
-      'LADIES BLOUSES COTTON – PLUS SIZE',
-      'LADIES BLOUSES L/S',
-      'LADIES BLOUSES POLY',
-      'LADIES BLOUSES KNIT L/S',
-      'LADIES DRESSES (PARTY)',
-      'LADIES DRESSES (SMALL SIZES)',
-      'LADIES DRESSES, SKIRTS',
-      'LADIES DRESSES, SKIRTS – KNIT',
-      'LADIES LINGERIE',
-      'LADIES MIX, PLUS SIZE, PREMIUM',
-      'LADIES PANTS CASUAL',
-      'LADIES PANTS DRESSY',
-      'LADIES JEANS',
-      'LADIES PANTS PLUS SIZE',
-      'LADIES SCARFS (BEACH)',
-      'LADIES SHORTS EXTRA',
-      'LADIES SWIMSUITS',
-      'LADIES TOPS S/S',
-      'LADIES TOPS',
-      'LADIES TOPS SLEEVELESS',
-    ]
-  },
-  {
-    category: 'Men\'s Clothing',
-    products: [
-      'MENS MIX PLUS SIZE',
-      'MENS PANTS CARGO',
-      'MENS SHIRTS (FLANNEL)',
-      'MENS SHIRTS L/S',
-      'MENS QUILTED SHIRTS',
-      'MENS SUIT PANTS',
-      'MENS SUMMER TOPS PLUS SIZE',
-      'MENS T-SHIRTS L/S',
-      'MENS UNDERWEAR',
-      'MENS PANTS PLUS SIZE',
-    ]
-  },
-  {
-    category: 'Outerwear & Jackets',
-    products: [
-      'COATS, JACKETS',
-      'FAUX JACKETS',
-      'JACKETS (WINTER)',
-      'JACKETS (WINTER) SIZE PLUS',
-      'JACKETS (AUTUMN, WINTER II)',
-      'JACKETS (SPRING & FALL) SIZE PLUS',
-      'JACKETS (SPRING–FALL)',
-      'JACKETS (SPRING–FALL II)',
-      'OVERCOATS / RAINCOATS',
-      'SKI SUITS',
-    ]
-  },
-  {
-    category: 'Pants & Bottoms',
-    products: [
-      'JEANS PANTS (YOUTH)',
-      'JOGGING PANTS (POLYESTER)',
-      'JOGGING PANTS MIX',
-    ]
-  },
-  {
-    category: 'Accessories',
-    products: [
-      'BASEBALL CAPS',
-      'HATS, SCARFS',
-      'HATS, SCARFS, GLOVES (ADULT)',
-      'HATS, SCARFS, GLOVES (CHILDREN)',
-      'SOCKS, PANTYHOSE',
-    ]
-  },
-  {
-    category: 'Other Items',
-    products: [
-      'COSTUMES (HALLOWEEN)',
-      'PLUSH PAJAMAS',
-      'PONCHO',
-      'PULLOVER / VEST',
-      'SPORT WEAR',
-      'SWEATERS',
-      'SWEATSHIRTS (ADULT MIX)',
-      'TURTLENECKS',
-    ]
-  },
+// Product list with codes
+const productList = [
+  { code: 'D6F', name: 'Hats Summer Mix' },
+  { code: 'SR2', name: 'Ladies blouses polyester rayon' },
+  { code: 'BE0', name: 'Ladies blouses cotton rayon' },
+  { code: '1AD', name: 'Ladies pants beach' },
+  { code: '396', name: 'Ladies pants capri' },
+  { code: 'J41', name: 'Ladies pants casual' },
+  { code: 'M41', name: 'Ladies pants sport cargo' },
+  { code: '8E5', name: 'Mens pants cotton' },
+  { code: '4FB', name: 'Mens polo shirts S S' },
+  { code: '504', name: 'Mens shirts flannel all sizes' },
+  { code: '38E', name: 'Mens suit pants' },
+  { code: '439', name: 'Mens T shirts' },
+  { code: '26E', name: 'Pillows' },
+  { code: '253', name: 'Scarves' },
+  { code: '79C', name: 'Socks' },
+  { code: '9A2', name: 'Towels II' },
+  { code: '8C4', name: 'Diapers adults assorted sizes' },
+  { code: '6BA', name: 'Shoes fall winter' },
+  { code: '157', name: 'Bedding blankets' },
+  { code: '903', name: 'Bedding comforters quilts' },
+  { code: '881', name: 'Ladies plus size dresses skirts shorts' },
+  { code: 'AD4', name: 'Ladies swim suits' },
+  { code: 'E45', name: 'Shoes pumps heels' },
+  { code: '135', name: 'Shoes slippers' },
 ]
 
-const qualityTypes = [
-  { value: 'premium', label: 'Premium', description: 'Highest quality, brand-name items, like-new condition' },
-  { value: 'grade1', label: 'Grade 1', description: 'Excellent quality with minor wear, great value' },
-  { value: 'mixed', label: 'Mixed Rags', description: 'Unsorted bulk items at lowest cost' },
+const qualityGrades = [
+  { value: 'premium', label: 'Premium' },
+  { value: 'grade1', label: 'Grade 1' },
+  { value: 'mixed', label: 'Mixed Rags' },
 ]
 
-const orderTypes = [
-  { value: '40ft', label: '40ft Container (~22,000 lbs)', description: 'Best for large international orders' },
-  { value: '20ft', label: '20ft Container (~10,000 lbs)', description: 'Standard international shipping' },
-  { value: 'small', label: 'Small Order (US Domestic)', description: 'Shipped via UPS/LTL within USA' },
-]
-
-const destinationRegions = [
-  'West Africa (Nigeria, Ghana, Benin, etc.)',
-  'East Africa (Kenya, Tanzania, Uganda, etc.)',
-  'Southern Africa (South Africa, Zimbabwe, etc.)',
-  'Central Africa (Cameroon, Congo, etc.)',
-  'North Africa',
-  'Other International',
-  'United States (Domestic)',
-]
-
-interface SelectedProduct {
-  id: string
+interface ProductSelection {
+  code: string
   name: string
-  quality: string
-  quantity: string
+  quantity: number
+  grade: string
+}
+
+interface CustomerInfo {
+  fullName: string
+  country: string
+  portNumber: string
+  phone: string
+  email: string
+  companyName: string
+  arrangeShippingMyself: boolean
+  shippingAddress: string
 }
 
 const QuoteForm = () => {
   const [step, setStep] = useState(1)
-  const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([])
-  const [formData, setFormData] = useState({
-    orderType: '',
-    destination: '',
-    name: '',
-    email: '',
+  const [productSelections, setProductSelections] = useState<ProductSelection[]>(
+    productList.map(p => ({ code: p.code, name: p.name, quantity: 0, grade: 'premium' }))
+  )
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
+    fullName: '',
+    country: '',
+    portNumber: '',
     phone: '',
-    company: '',
-    message: '',
+    email: '',
+    companyName: '',
+    arrangeShippingMyself: false,
+    shippingAddress: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [currentProduct, setCurrentProduct] = useState({
-    category: '',
-    product: '',
-    quality: '',
-    quantity: '1',
-  })
 
-  const handleAddProduct = () => {
-    if (currentProduct.product && currentProduct.quality) {
-      const newProduct: SelectedProduct = {
-        id: Date.now().toString(),
-        name: currentProduct.product,
-        quality: currentProduct.quality,
-        quantity: currentProduct.quantity,
-      }
-      setSelectedProducts([...selectedProducts, newProduct])
-      setCurrentProduct({ category: '', product: '', quality: '', quantity: '1' })
-    }
+  const handleQuantityChange = (code: string, quantity: number) => {
+    setProductSelections(prev =>
+      prev.map(p => (p.code === code ? { ...p, quantity: Math.max(0, quantity) } : p))
+    )
   }
 
-  const handleRemoveProduct = (id: string) => {
-    setSelectedProducts(selectedProducts.filter(p => p.id !== id))
+  const handleGradeChange = (code: string, grade: string) => {
+    setProductSelections(prev =>
+      prev.map(p => (p.code === code ? { ...p, grade } : p))
+    )
+  }
+
+  const getSelectedProducts = () => {
+    return productSelections.filter(p => p.quantity > 0)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -186,11 +97,6 @@ const QuoteForm = () => {
     
     setIsSubmitting(false)
     setIsSubmitted(true)
-  }
-
-  const getProductsByCategory = (category: string) => {
-    const cat = productCategories.find(c => c.category === category)
-    return cat ? cat.products : []
   }
 
   if (isSubmitted) {
@@ -210,15 +116,18 @@ const QuoteForm = () => {
             onClick={() => {
               setIsSubmitted(false)
               setStep(1)
-              setSelectedProducts([])
-              setFormData({
-                orderType: '',
-                destination: '',
-                name: '',
-                email: '',
+              setProductSelections(
+                productList.map(p => ({ code: p.code, name: p.name, quantity: 0, grade: 'premium' }))
+              )
+              setCustomerInfo({
+                fullName: '',
+                country: '',
+                portNumber: '',
                 phone: '',
-                company: '',
-                message: '',
+                email: '',
+                companyName: '',
+                arrangeShippingMyself: false,
+                shippingAddress: '',
               })
             }}
             className="px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors"
@@ -241,6 +150,8 @@ const QuoteForm = () => {
     )
   }
 
+  const selectedProductsCount = getSelectedProducts().length
+
   return (
     <form onSubmit={handleSubmit}>
       {/* Progress Steps */}
@@ -249,137 +160,122 @@ const QuoteForm = () => {
           <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${step >= 1 ? 'bg-primary-600 text-white' : 'bg-secondary-200 text-secondary-500'}`}>
             1
           </div>
-          <div className={`w-16 md:w-24 h-1 ${step >= 2 ? 'bg-primary-600' : 'bg-secondary-200'}`}></div>
+          <div className={`w-24 md:w-32 h-1 ${step >= 2 ? 'bg-primary-600' : 'bg-secondary-200'}`}></div>
           <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${step >= 2 ? 'bg-primary-600 text-white' : 'bg-secondary-200 text-secondary-500'}`}>
             2
-          </div>
-          <div className={`w-16 md:w-24 h-1 ${step >= 3 ? 'bg-primary-600' : 'bg-secondary-200'}`}></div>
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${step >= 3 ? 'bg-primary-600 text-white' : 'bg-secondary-200 text-secondary-500'}`}>
-            3
           </div>
         </div>
       </div>
 
-      <div className="flex justify-center gap-4 text-sm text-secondary-600 mb-8">
+      <div className="flex justify-center gap-8 text-sm text-secondary-600 mb-8">
         <span className={step === 1 ? 'text-primary-600 font-semibold' : ''}>Select Products</span>
-        <span className={step === 2 ? 'text-primary-600 font-semibold' : ''}>Order Details</span>
-        <span className={step === 3 ? 'text-primary-600 font-semibold' : ''}>Contact Info</span>
+        <span className={step === 2 ? 'text-primary-600 font-semibold' : ''}>Customer Info</span>
       </div>
 
       {/* Step 1: Select Products */}
       {step === 1 && (
         <div className="space-y-6">
-          <div className="bg-secondary-50 rounded-xl p-6">
-            <h3 className="font-semibold text-secondary-800 mb-4">Add Products to Your Quote</h3>
+          <div className="bg-secondary-50 rounded-xl p-4 md:p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-secondary-800">Select Products & Quantities</h3>
+              <span className="text-sm text-secondary-600">
+                {selectedProductsCount} product{selectedProductsCount !== 1 ? 's' : ''} selected
+              </span>
+            </div>
             
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              {/* Category Select */}
-              <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
-                  Product Category
-                </label>
-                <select
-                  value={currentProduct.category}
-                  onChange={(e) => setCurrentProduct({ ...currentProduct, category: e.target.value, product: '' })}
-                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option value="">Select a category</option>
-                  {productCategories.map(cat => (
-                    <option key={cat.category} value={cat.category}>{cat.category}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Product Select */}
-              <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
-                  Product
-                </label>
-                <select
-                  value={currentProduct.product}
-                  onChange={(e) => setCurrentProduct({ ...currentProduct, product: e.target.value })}
-                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  disabled={!currentProduct.category}
-                >
-                  <option value="">Select a product</option>
-                  {getProductsByCategory(currentProduct.category).map(product => (
-                    <option key={product} value={product}>{product}</option>
-                  ))}
-                </select>
-              </div>
+            {/* Product Grid Header - Desktop */}
+            <div className="hidden md:grid md:grid-cols-12 gap-4 py-3 px-4 bg-secondary-100 rounded-lg mb-2 text-sm font-medium text-secondary-700">
+              <div className="col-span-1">Code</div>
+              <div className="col-span-5">Product Name</div>
+              <div className="col-span-3">Quantity</div>
+              <div className="col-span-3">Quality Grade</div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              {/* Quality Select */}
-              <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
-                  Quality Grade
-                </label>
-                <select
-                  value={currentProduct.quality}
-                  onChange={(e) => setCurrentProduct({ ...currentProduct, quality: e.target.value })}
-                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            {/* Product List - Scrollable */}
+            <div className="max-h-[500px] overflow-y-auto space-y-2 pr-2">
+              {productSelections.map((product) => (
+                <div
+                  key={product.code}
+                  className={`grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4 p-4 rounded-lg border transition-colors ${
+                    product.quantity > 0
+                      ? 'border-primary-300 bg-primary-50'
+                      : 'border-secondary-200 bg-white hover:border-secondary-300'
+                  }`}
                 >
-                  <option value="">Select quality</option>
-                  {qualityTypes.map(type => (
-                    <option key={type.value} value={type.value}>{type.label} - {type.description}</option>
-                  ))}
-                </select>
-              </div>
+                  {/* Code - Mobile shows inline */}
+                  <div className="md:col-span-1 flex items-center">
+                    <span className="md:hidden text-xs font-medium text-secondary-500 mr-2">Code:</span>
+                    <span className="text-sm font-mono text-secondary-600">{product.code}</span>
+                  </div>
 
-              {/* Quantity */}
-              <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
-                  Number of Bales
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  value={currentProduct.quantity}
-                  onChange={(e) => setCurrentProduct({ ...currentProduct, quantity: e.target.value })}
-                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Enter quantity"
-                />
-              </div>
+                  {/* Product Name */}
+                  <div className="md:col-span-5 flex items-center">
+                    <span className="font-medium text-secondary-800">{product.name}</span>
+                  </div>
+
+                  {/* Quantity Input */}
+                  <div className="md:col-span-3 flex items-center gap-2">
+                    <span className="md:hidden text-sm text-secondary-500">Qty:</span>
+                    <div className="flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => handleQuantityChange(product.code, product.quantity - 1)}
+                        className="w-8 h-8 flex items-center justify-center bg-secondary-200 hover:bg-secondary-300 rounded-l-lg transition-colors"
+                      >
+                        <svg className="w-4 h-4 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                        </svg>
+                      </button>
+                      <input
+                        type="number"
+                        min="0"
+                        value={product.quantity}
+                        onChange={(e) => handleQuantityChange(product.code, parseInt(e.target.value) || 0)}
+                        className="w-16 h-8 text-center border-y border-secondary-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleQuantityChange(product.code, product.quantity + 1)}
+                        className="w-8 h-8 flex items-center justify-center bg-secondary-200 hover:bg-secondary-300 rounded-r-lg transition-colors"
+                      >
+                        <svg className="w-4 h-4 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Quality Grade Dropdown */}
+                  <div className="md:col-span-3 flex items-center gap-2">
+                    <span className="md:hidden text-sm text-secondary-500">Grade:</span>
+                    <select
+                      value={product.grade}
+                      onChange={(e) => handleGradeChange(product.code, e.target.value)}
+                      className="flex-1 px-3 py-1.5 text-sm border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                    >
+                      {qualityGrades.map((grade) => (
+                        <option key={grade.value} value={grade.value}>
+                          {grade.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ))}
             </div>
-
-            <button
-              type="button"
-              onClick={handleAddProduct}
-              disabled={!currentProduct.product || !currentProduct.quality}
-              className="w-full md:w-auto px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:bg-secondary-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Add Product
-            </button>
           </div>
 
-          {/* Selected Products List */}
-          {selectedProducts.length > 0 && (
-            <div className="border border-secondary-200 rounded-xl overflow-hidden">
-              <div className="bg-secondary-100 px-6 py-3 font-semibold text-secondary-800">
-                Selected Products ({selectedProducts.length})
-              </div>
-              <div className="divide-y divide-secondary-200">
-                {selectedProducts.map((product) => (
-                  <div key={product.id} className="px-6 py-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-secondary-800">{product.name}</p>
-                      <p className="text-sm text-secondary-500">
-                        Quality: <span className="capitalize">{product.quality}</span> | Quantity: {product.quantity} bale(s)
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveProduct(product.id)}
-                      className="text-red-500 hover:text-red-700 p-2"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
+          {/* Selected Summary */}
+          {selectedProductsCount > 0 && (
+            <div className="bg-primary-50 border border-primary-200 rounded-xl p-4">
+              <h4 className="font-semibold text-primary-800 mb-3">Selected Products Summary</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
+                {getSelectedProducts().map((p) => (
+                  <div key={p.code} className="flex items-center justify-between bg-white rounded-lg px-3 py-2">
+                    <span className="text-secondary-800">{p.name}</span>
+                    <span className="text-primary-600 font-medium">
+                      {p.quantity} × {qualityGrades.find(g => g.value === p.grade)?.label}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -390,97 +286,175 @@ const QuoteForm = () => {
             <button
               type="button"
               onClick={() => setStep(2)}
-              disabled={selectedProducts.length === 0}
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:bg-secondary-300 disabled:cursor-not-allowed"
+              disabled={selectedProductsCount === 0}
+              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:bg-secondary-300 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              Continue to Order Details
+              Continue
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
       )}
 
-      {/* Step 2: Order Details */}
+      {/* Step 2: Customer Information */}
       {step === 2 && (
         <div className="space-y-6">
-          {/* Order Type */}
-          <div>
-            <label className="block text-sm font-medium text-secondary-700 mb-3">
-              Order Type *
-            </label>
-            <div className="grid md:grid-cols-3 gap-4">
-              {orderTypes.map((type) => (
-                <label
-                  key={type.value}
-                  className={`relative flex flex-col p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                    formData.orderType === type.value
-                      ? 'border-primary-500 bg-primary-50'
-                      : 'border-secondary-200 hover:border-secondary-300'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="orderType"
-                    value={type.value}
-                    checked={formData.orderType === type.value}
-                    onChange={(e) => setFormData({ ...formData, orderType: e.target.value })}
-                    className="sr-only"
-                  />
-                  <span className="font-semibold text-secondary-800">{type.label}</span>
-                  <span className="text-sm text-secondary-500 mt-1">{type.description}</span>
-                  {formData.orderType === type.value && (
-                    <div className="absolute top-3 right-3">
-                      <svg className="w-5 h-5 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
+          <div className="bg-secondary-50 rounded-xl p-6">
+            <h3 className="font-semibold text-secondary-800 mb-6">Customer Information</h3>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Full Name */}
+              <div>
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Full Name *
                 </label>
-              ))}
-            </div>
-          </div>
+                <input
+                  type="text"
+                  value={customerInfo.fullName}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, fullName: e.target.value })}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
 
-          {/* Destination */}
-          <div>
-            <label className="block text-sm font-medium text-secondary-700 mb-2">
-              Shipping Destination *
-            </label>
-            <select
-              value={formData.destination}
-              onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-              className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              required
-            >
-              <option value="">Select destination region</option>
-              {destinationRegions.map(region => (
-                <option key={region} value={region}>{region}</option>
-              ))}
-            </select>
+              {/* Country */}
+              <div>
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Country *
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.country}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, country: e.target.value })}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="Your Country"
+                  required
+                />
+              </div>
+
+              {/* Port Number */}
+              <div>
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Port Number *
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.portNumber}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, portNumber: e.target.value })}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="Destination Port Number"
+                  required
+                />
+              </div>
+
+              {/* Phone Number */}
+              <div>
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  value={customerInfo.phone}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="+1 (555) 123-4567"
+                  required
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  value={customerInfo.email}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="john@example.com"
+                  required
+                />
+              </div>
+
+              {/* Company Name */}
+              <div>
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.companyName}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, companyName: e.target.value })}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="Your Company (Optional)"
+                />
+              </div>
+            </div>
+
+            {/* Shipping Checkbox */}
+            <div className="mt-6">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={customerInfo.arrangeShippingMyself}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, arrangeShippingMyself: e.target.checked })}
+                  className="w-5 h-5 text-primary-600 border-secondary-300 rounded focus:ring-primary-500"
+                />
+                <span className="text-secondary-700 font-medium">I will arrange shipping myself</span>
+              </label>
+            </div>
+
+            {/* Shipping Address - Show only if checkbox is unchecked */}
+            {!customerInfo.arrangeShippingMyself && (
+              <div className="mt-6">
+                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  Shipping Address *
+                </label>
+                <textarea
+                  value={customerInfo.shippingAddress}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, shippingAddress: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="Enter your full shipping address"
+                  required={!customerInfo.arrangeShippingMyself}
+                />
+              </div>
+            )}
           </div>
 
           {/* Order Summary */}
-          <div className="bg-secondary-50 rounded-xl p-6">
-            <h4 className="font-semibold text-secondary-800 mb-4">Order Summary</h4>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-secondary-600">Products Selected:</span>
-                <span className="font-medium">{selectedProducts.length} items</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-secondary-600">Total Bales:</span>
-                <span className="font-medium">{selectedProducts.reduce((sum, p) => sum + parseInt(p.quantity), 0)}</span>
-              </div>
-              {formData.orderType && (
-                <div className="flex justify-between">
-                  <span className="text-secondary-600">Order Type:</span>
-                  <span className="font-medium">{orderTypes.find(t => t.value === formData.orderType)?.label}</span>
+          <div className="bg-primary-50 border border-primary-200 rounded-xl p-6">
+            <h4 className="font-semibold text-primary-800 mb-4">Quote Request Summary</h4>
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-secondary-600 mb-2">Selected Products:</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                  {getSelectedProducts().map((p) => (
+                    <div key={p.code} className="flex items-center justify-between bg-white rounded-lg px-3 py-2">
+                      <span className="text-secondary-800">{p.name}</span>
+                      <span className="text-primary-600 font-medium">
+                        {p.quantity} × {qualityGrades.find(g => g.value === p.grade)?.label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              )}
-              {formData.destination && (
-                <div className="flex justify-between">
-                  <span className="text-secondary-600">Destination:</span>
-                  <span className="font-medium">{formData.destination}</span>
+              </div>
+              <div className="pt-3 border-t border-primary-200">
+                <div className="flex justify-between text-sm">
+                  <span className="text-secondary-600">Total Products:</span>
+                  <span className="font-medium text-secondary-800">{selectedProductsCount} items</span>
                 </div>
-              )}
+                <div className="flex justify-between text-sm mt-1">
+                  <span className="text-secondary-600">Total Quantity:</span>
+                  <span className="font-medium text-secondary-800">
+                    {getSelectedProducts().reduce((sum, p) => sum + p.quantity, 0)} units
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -488,131 +462,24 @@ const QuoteForm = () => {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="px-6 py-3 border border-secondary-300 text-secondary-700 rounded-lg font-semibold hover:bg-secondary-50 transition-colors"
+              className="px-6 py-3 border border-secondary-300 text-secondary-700 rounded-lg font-semibold hover:bg-secondary-50 transition-colors flex items-center gap-2"
             >
-              Back
-            </button>
-            <button
-              type="button"
-              onClick={() => setStep(3)}
-              disabled={!formData.orderType || !formData.destination}
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:bg-secondary-300 disabled:cursor-not-allowed"
-            >
-              Continue to Contact Info
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Step 3: Contact Information */}
-      {step === 3 && (
-        <div className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-2">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="John Doe"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-2">
-                Company Name
-              </label>
-              <input
-                type="text"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Your Company"
-              />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-2">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="john@example.com"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-2">
-                Phone Number *
-              </label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="+1 (555) 123-4567"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-secondary-700 mb-2">
-              Additional Notes
-            </label>
-            <textarea
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              rows={4}
-              className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              placeholder="Any specific requirements, questions, or details about your order..."
-            ></textarea>
-          </div>
-
-          {/* Final Summary */}
-          <div className="bg-primary-50 border border-primary-200 rounded-xl p-6">
-            <h4 className="font-semibold text-primary-800 mb-4">Quote Request Summary</h4>
-            <div className="grid md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="text-secondary-600 mb-1">Products:</p>
-                <ul className="space-y-1">
-                  {selectedProducts.map(p => (
-                    <li key={p.id} className="text-secondary-800">
-                      • {p.name} ({p.quality}, {p.quantity} bales)
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="text-secondary-600 mb-1">Order Type:</p>
-                <p className="font-medium text-secondary-800 mb-2">
-                  {orderTypes.find(t => t.value === formData.orderType)?.label}
-                </p>
-                <p className="text-secondary-600 mb-1">Destination:</p>
-                <p className="font-medium text-secondary-800">{formData.destination}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-between">
-            <button
-              type="button"
-              onClick={() => setStep(2)}
-              className="px-6 py-3 border border-secondary-300 text-secondary-700 rounded-lg font-semibold hover:bg-secondary-50 transition-colors"
-            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
               Back
             </button>
             <button
               type="submit"
-              disabled={isSubmitting || !formData.name || !formData.email || !formData.phone}
+              disabled={
+                isSubmitting ||
+                !customerInfo.fullName ||
+                !customerInfo.country ||
+                !customerInfo.portNumber ||
+                !customerInfo.phone ||
+                !customerInfo.email ||
+                (!customerInfo.arrangeShippingMyself && !customerInfo.shippingAddress)
+              }
               className="px-8 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors disabled:bg-secondary-300 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isSubmitting ? (
